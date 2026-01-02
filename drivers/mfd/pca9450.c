@@ -122,6 +122,7 @@ static bool is_volatile_reg(struct device *dev, unsigned int reg)
 
 /* @brief regmap configures */
 static const struct regmap_config pca9450_regmap_config = {
+	.name = "pmic-pca9450",
 	.reg_bits = 8,
 	.val_bits = 8,
 	.volatile_reg = is_volatile_reg,
