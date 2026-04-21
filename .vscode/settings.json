@@ -51,9 +51,11 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
+        "*.cmd": true,
         "arch/arm64/boot/dts/freescale/.*": true,
 
         "scripts": true,
+        "extra": true,
         "Documentation": true,
 
         "arch/a[a-q,s-z]*": true,
@@ -75,15 +77,18 @@
         "arch/arm64/boot/dts/freescale/imx8mp[a-z]*": true,
         "arch/arm64/boot/dts/freescale/imx8mp-*": true,
 
-        "drivers/staging": true,
+        // "drivers/staging": true,
     },
     "search.exclude": {
         "**/node_modules": true,
         "**/bower_components": true,
         "**/*.code-search": true,
+        "*.cmd": true,
+
         "arch/arm64/boot/dts/freescale/.*": true,
 
         "scripts": true,
+        "extra": true,
         "Documentation": true,
 
         "arch/a[a-q,s-z]*": true,
@@ -105,6 +110,6 @@
         "arch/arm64/boot/dts/freescale/imx8mp[a-z]*": true,
         "arch/arm64/boot/dts/freescale/imx8mp-*": true,
 
-        "drivers/staging": true,
+        // "drivers/staging": true,
     }
 }

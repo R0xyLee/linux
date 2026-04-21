@@ -2424,17 +2424,6 @@ static int imx6_pcie_probe(struct platform_device *pdev)
 	if (of_property_read_u32(node, "local-addr", &imx6_pcie->local_addr))
 		imx6_pcie->local_addr = 0;
 
-#if 0 
-	/* Fetch GPIOs */
-	imx6_pcie->clkreq_gpio = of_get_named_gpio(node, "clkreq-gpio", 0);
-	if (gpio_is_valid(imx6_pcie->clkreq_gpio)) {
-		devm_gpio_request_one(&pdev->dev, imx6_pcie->clkreq_gpio,
-				      GPIOF_OUT_INIT_LOW, "PCIe CLKREQ");
-	} else if (imx6_pcie->clkreq_gpio == -EPROBE_DEFER) {
-		return imx6_pcie->clkreq_gpio;
-	}
-#endif
-
 	imx6_pcie->dis_gpio = of_get_named_gpio(node, "disable-gpio", 0);
 	if (gpio_is_valid(imx6_pcie->dis_gpio)) {
 		ret = devm_gpio_request_one(&pdev->dev, imx6_pcie->dis_gpio,
@@ -2444,12 +2433,6 @@ static int imx6_pcie_probe(struct platform_device *pdev)
 			return ret;
 		}
 	}
-
-#if 0 
-	else if (imx6_pcie->dis_gpio == -EPROBE_DEFER) {
-		return imx6_pcie->dis_gpio;
-	}
-#endif
 
 	imx6_pcie->epdev_on = devm_regulator_get(&pdev->dev, "epdev_on");
 	if (IS_ERR(imx6_pcie->epdev_on))
@@ -2468,12 +2451,6 @@ static int imx6_pcie_probe(struct platform_device *pdev)
 			return ret;
 		}
 	}
-
-#if 0
-	else if (imx6_pcie->reset_gpio == -EPROBE_DEFER) {
-		return imx6_pcie->reset_gpio;
-	}
-#endif
 
 	/* Fetch clocks */
 	imx6_pcie->pcie_phy = devm_clk_get(dev, "pcie_phy");

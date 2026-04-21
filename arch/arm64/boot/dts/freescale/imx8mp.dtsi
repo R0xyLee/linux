@@ -185,14 +185,14 @@
 			reg = <0 0x900000 0 0x70000>;
 		};
 
-/*
- *		Memory reserved for optee usage. Please do not use.
- *		This will be automaticky added to dtb if OP-TEE is installed.
- *		optee@56000000 {
- *   			reg = <0 0x56000000 0 0x2000000>;
- *			no-map;
- *		};
- */
+		/*
+		 *	Memory reserved for optee usage. Please do not use.
+		 *	This will be automaticky added to dtb if OP-TEE is installed.
+		 *	optee@56000000 {
+		 *   		reg = <0 0x56000000 0 0x2000000>;
+		 *		no-map;
+		 *	};
+		 */
 		/* global autoconfigured region for contiguous allocations */
 		linux,cma {
 			compatible = "shared-dma-pool";
@@ -2076,8 +2076,8 @@
 			assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_500M>;
 			assigned-clock-rates = <500000000>;
 			interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
-			phys = <&usb3_phy0>, <&usb3_phy0>;
-			phy-names = "usb2-phy", "usb3-phy";
+			phys = <&usb3_phy0>;
+			phy-names = "usb3-phy";
 			snps,dis-u2-freeclk-exists-quirk;
 			status = "disabled";
 		};
