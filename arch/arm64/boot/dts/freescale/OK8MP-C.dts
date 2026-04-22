@@ -358,7 +358,7 @@
 		output-open-drain;
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_onewire>;
-		status = "okay";
+		status = "disabled";
 	};
 };
 
