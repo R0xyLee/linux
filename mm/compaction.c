@@ -1191,13 +1191,8 @@ static inline bool compact_scanners_met(struct compact_control *cc)
 static void
 move_freelist_head(struct list_head *freelist, struct page *freepage)
 {
-	LIST_HEAD(sublist);
-
-	if (!list_is_last(freelist, &freepage->lru)) {
-		list_cut_before(&sublist, freelist, &freepage->lru);
-		if (!list_empty(&sublist))
-			list_splice_tail(&sublist, freelist);
-	}
+	if (!list_is_first(&freepage->lru, freelist))
+		list_rotate_to_front(&freepage->lru, freelist);
 }
 
 /*
@@ -1209,13 +1204,8 @@ move_freelist_head(struct list_head *freelist, struct page *freepage)
 static void
 move_freelist_tail(struct list_head *freelist, struct page *freepage)
 {
-	LIST_HEAD(sublist);
-
-	if (!list_is_first(freelist, &freepage->lru)) {
-		list_cut_position(&sublist, freelist, &freepage->lru);
-		if (!list_empty(&sublist))
-			list_splice_tail(&sublist, freelist);
-	}
+	if (!list_is_last(&freepage->lru, freelist))
+		list_rotate_to_front(freepage->lru.next, freelist);
 }
 
 static void
