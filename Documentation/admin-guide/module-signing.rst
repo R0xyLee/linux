@@ -120,6 +120,12 @@ This has a number of options available:
 Note that enabling module signing adds a dependency on the OpenSSL devel
 packages to the kernel build processes for the tool that does the signing.
 
+With OpenSSL 3 or later, ``scripts/extract-cert`` loads PKCS#11 certificates
+through an OpenSSL provider named ``pkcs11``, which must be installed on the
+build host.  Earlier OpenSSL versions use the PKCS#11 engine.  Certificate
+extraction continues to accept ``KBUILD_SIGN_PIN`` in either case; extracting
+certificates from PEM files does not require a PKCS#11 provider.
+
 
 =======================
 Generating signing keys
