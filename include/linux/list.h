@@ -60,7 +60,7 @@ static inline void __list_add(struct list_head *new,
 	if (!__list_add_valid(new, prev, next))
 		return;
 
-	next->prev = new;
+	WRITE_ONCE(next->prev, new);
 	new->next = next;
 	new->prev = prev;
 	WRITE_ONCE(prev->next, new);
