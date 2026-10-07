@@ -184,7 +184,8 @@ SECTIONS
 		__alt_instructions_end = .;
 	}
 
-	. = ALIGN(PAGE_SIZE);
+	/* Keep init text and writable init data in separate ELF load segments. */
+	. = ALIGN(SEGMENT_ALIGN);
 	__inittext_end = .;
 	__initdata_begin = .;
 

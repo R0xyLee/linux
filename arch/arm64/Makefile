@@ -11,6 +11,8 @@
 # Copyright (C) 1995-2001 by Russell King
 
 LDFLAGS_vmlinux	:=--no-undefined -X
+# Keep executable code in separate ELF load segments from writable data.
+LDFLAGS_vmlinux	+= $(call ld-option, -z separate-code)
 CPPFLAGS_vmlinux.lds = -DTEXT_OFFSET=$(TEXT_OFFSET)
 GZFLAGS		:=-9
 
