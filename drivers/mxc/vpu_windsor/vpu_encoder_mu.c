@@ -35,8 +35,8 @@ static void vpu_enc_mbox_free(struct core_device *core_dev)
 
 static void vpu_enc_mu_inq_msg(struct core_device *core_dev, void *msg)
 {
-	if (&core_dev->mu_msg_fifo == NULL) {
-		vpu_err("mu_msg_fifo is NULL\n");
+	if (!kfifo_initialized(&core_dev->mu_msg_fifo)) {
+		vpu_err("mu_msg_fifo is not initialized\n");
 		return;
 	}
 
