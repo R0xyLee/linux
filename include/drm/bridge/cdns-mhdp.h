@@ -858,8 +858,19 @@ int cdns_mhdp_audio_stop(struct cdns_mhdp_device *mhdp,
 int cdns_mhdp_audio_mute(struct cdns_mhdp_device *mhdp, bool enable);
 int cdns_mhdp_audio_config(struct cdns_mhdp_device *mhdp,
 			   struct audio_info *audio);
+#if IS_ENABLED(CONFIG_DRM_CDNS_AUDIO)
 int cdns_mhdp_register_audio_driver(struct device *dev);
 void cdns_mhdp_unregister_audio_driver(struct device *dev);
+#else
+static inline int cdns_mhdp_register_audio_driver(struct device *dev)
+{
+	return 0;
+}
+
+static inline void cdns_mhdp_unregister_audio_driver(struct device *dev)
+{
+}
+#endif
 
 int cdns_mhdp_reg_read(struct cdns_mhdp_device *mhdp, u32 addr);
 int cdns_mhdp_reg_write(struct cdns_mhdp_device *mhdp, u32 addr, u32 val);
