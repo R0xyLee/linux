@@ -7,6 +7,7 @@ ARM64 Architecture
 .. toctree::
     :maxdepth: 1
 
+    8mp-config
     acpi_object_usage
     amu
     arm-acpi

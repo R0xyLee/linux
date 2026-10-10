@@ -167,11 +167,13 @@
 	usdhc1_pwrseq: usdhc1_pwrseq {
 		compatible = "mmc-pwrseq-simple";
 		reset-gpios = <&gpio2 8 GPIO_ACTIVE_LOW>;
+		status = "disabled";
 	};
 
 	reg_audio_pwr: regulator-audio-pwr {
 		compatible = "regulator-fixed";
 		regulator-name = "audio-pwr";
+		status = "disabled";
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		gpio = <&gpio4 29 GPIO_ACTIVE_HIGH>;
@@ -182,10 +184,12 @@
 	bt_sco_codec: bt_sco_codec {
 		#sound-dai-cells = <1>;
 		compatible = "linux,bt-sco";
+		status = "disabled";
 	};
 
 	sound-bt-sco {
 		compatible = "simple-audio-card";
+		status = "disabled";
 		simple-audio-card,name = "bt-sco-audio";
 		simple-audio-card,format = "dsp_a";
 		simple-audio-card,bitclock-inversion;
@@ -229,7 +233,7 @@
 				<48000>,
 				<96000>,
 				<192000>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	sound-wm8960 {
@@ -276,12 +280,13 @@
 			"Playback", "CPU-Playback",
 			"ASRC-Capture", "CPU-Capture",
 			"CPU-Capture", "Capture";
-		status = "okay";
+		status = "disabled";
 	};
 
 	sound-xcvr {
 		compatible = "fsl,imx-audio-card";
 		model = "imx-audio-xcvr";
+		status = "disabled";
 		pri-dai-link {
 			link-name = "XCVR PCM";
 			cpu {
@@ -336,7 +341,7 @@
 	lvds1_backlight: lvds1_backlight {
 		compatible = "pwm-backlight";
 		pwms = <&pwm2 0 50000 0>;
-		status = "okay";
+		status = "disabled";
 		is-forlinx;      //if not forlinx backligth  remove this
 
 		brightness-levels = < 
@@ -479,7 +484,7 @@
 };
 
 &aud2htx {
-	status = "okay";
+	status = "disabled";
 };
 
 &ecspi2 {
@@ -489,7 +494,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_ecspi2 &pinctrl_ecspi2_cs>;
 	cs-gpios = <&gpio5 13 GPIO_ACTIVE_LOW>;
-	status = "okay";
+	status = "disabled";
 
 	spidev1: spi@0 {
 		reg = <0>;
@@ -740,7 +745,7 @@
 		compatible = "basler,basler-camera-vvcam", "basler-camera-vvcam";
 		reg = <0x36>;
 		csi_id = <0x00>;
-		status = "okay";
+		status = "disabled";
 
 		port {
 			basler_ep_0: endpoint {
@@ -772,7 +777,7 @@
 		mclk = <24000000>;
 		mclk_source = <0>;
 		mipi_csi;
-		status = "okay";
+		status = "disabled";
 
 		port {
 			ov5645_mipi_csi1_ep: endpoint {
@@ -867,7 +872,7 @@
 		clock-names = "mclk";
 		wlf,shared-lrclk;
 		#sound-dai-cells = <0>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	rtc8010: rx8010@32 {
@@ -934,11 +939,11 @@
 };
 
 &lcdif1 {
-	status = "disabled";
+	status = "okay";
 };
 
 &lcdif2 {
-	status = "okay";
+	status = "disabled";
 };
 
 &lcdif3 {
@@ -953,7 +958,7 @@
 	lvds0_panel {
 		compatible = "forlinx,panel", "panel-lvds";
 		panel-type = "lvds";
-		status = "okay";
+		status = "disabled";
 
 		width-mm = <218>;
 		height-mm = <138>;
@@ -1017,13 +1022,13 @@
 };
 
 &ldb {
-	status = "okay";
+	status = "disabled";
 	fsl,duplicate-channel; // only copy lvdschn0 to lvdschn1
 	//fsl,dual-channel;
 	lvds-channel@0 {
 		fsl,data-mapping = "spwg";
 		fsl,data-width = <24>;
-		status = "okay";
+		status = "disabled";
 		port@1 {
 			reg = <1>;
 
@@ -1048,7 +1053,7 @@
 };
 
 &ldb_phy {
-	status = "okay";
+	status = "disabled";
 };
 
 &mipi_dsi {
@@ -1087,7 +1092,7 @@
 	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_INPUT>;
 	clocks = <&pcie0_refclk>;
 	clock-names = "ref";
-	status = "okay";
+	status = "disabled";
 };
 
 &pcie {
@@ -1102,7 +1107,7 @@
 	assigned-clock-rates = <10000000>;
 	assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_50M>;
 	//vpcie-supply = <&reg_pcie_pwr>;
-	status = "okay";
+	status = "disabled";
 };
 
 &pcie_ep{
@@ -1126,7 +1131,7 @@
 
 &easrc {
 	fsl,asrc-rate  = <48000>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sai5 {
@@ -1136,7 +1141,7 @@
 	assigned-clocks = <&clk IMX8MP_CLK_SAI5>;
 	assigned-clock-parents = <&clk IMX8MP_AUDIO_PLL1_OUT>;
 	assigned-clock-rates = <12288000>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sai3 {
@@ -1150,12 +1155,12 @@
 		 <&clk IMX8MP_CLK_DUMMY>;
 	clock-names = "bus", "mclk0", "mclk1", "mclk2", "mclk3";
 	fsl,sai-mclk-direction-output;
-	status = "okay";
+	status = "disabled";
 };
 
 &xcvr {
 	#sound-dai-cells = <0>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sdma2 {
@@ -1168,7 +1173,7 @@
 	assigned-clocks = <&clk IMX8MP_CLK_UART1>;
 	assigned-clock-parents = <&clk IMX8MP_SYS_PLL1_80M>;
 	fsl,uart-has-rtscts;
-	status = "okay";
+	status = "disabled";
 /* if use hciattch to init,please annotating this code
 	bluetooth {
 		compatible = "nxp,88w8987-bt";
@@ -1249,7 +1254,7 @@
 	bus-width = <4>;
 	non-removable;
 	fsl,sdio-async-interrupt-enabled;
-	status = "okay";
+	status = "disabled";
 	pm-ignore-notify;
 	keep-power-in-suspend;
 	/delete-property/ mmc-supply;	
@@ -1267,7 +1272,7 @@
 	cd-gpios = <&gpio2 12 GPIO_ACTIVE_LOW>;
 	vmmc-supply = <&reg_usdhc2_vmmc>;
 	bus-width = <4>;
-	status = "okay";
+	status = "disabled";
 };
 
 /* eMMC */
@@ -1783,7 +1788,7 @@
 &mipi_csi_0 {
 	#address-cells = <1>;
 	#size-cells = <0>;
-	status = "okay";
+	status = "disabled";
 
 	port@0 {
 		reg = <0>;
