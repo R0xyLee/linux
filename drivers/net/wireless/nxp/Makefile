@@ -307,6 +307,8 @@ ifeq ($(CONFIG_USB9098),y)
 	CONFIG_MUSB=y
 	ccflags-y += -DUSB9098
 endif
+# PCIe chipset defaults must not pull PCI code into an SDIO-only kernel.
+ifeq ($(CONFIG_PCI),y)
 ifeq ($(CONFIG_PCIE8897),y)
 	CONFIG_PCIE=y
 	ccflags-y += -DPCIE8897
@@ -333,6 +335,7 @@ ifeq ($(CONFIG_PCIEAW693),y)
 	ccflags-y += -DPCIEAW693
 endif
 #endif
+endif
 ifeq ($(CONFIG_SDIO),y)
 	ccflags-y += -DSDIO
 	ccflags-y += -DSDIO_MMC
