@@ -19,6 +19,11 @@
 #define YT8521_PHY_ID 0x0000011a
 #define YT8521_PHY_ID_MASK			0x00000fff
 
+#define YT8521_EXT_ADDR_REG	0x1e
+#define YT8521_EXT_DATA_REG	0x1f
+#define YT8521_CHIP_CONFIG_REG	0xa001
+#define YT8521_RXC_DLY_EN		BIT(8)
+
 
 MODULE_DESCRIPTION("YT8521 PHY driver");
 MODULE_AUTHOR("machao");
@@ -53,11 +58,22 @@ static int yt8521_probe(struct phy_device *phydev)
 
 static int yt8521_config_init(struct phy_device *phydev)
 {
-	/* The RX and TX delay default is:
-	 *   after HW reset: RX delay enabled and TX delay disabled
-	 *   after SW reset: RX delay enabled, while TX delay retains the
-	 *   value before reset.
+	int ret;
+
+	/* The fixed 0x00fd RGMII timing below needs the 1.9 ns base RX delay.
+	 * Mainline U-Boot can disable it and use the fine delay in 0xa003
+	 * instead. Restore it before overwriting that register, or RX has
+	 * no delay after the bootloader hands over the PHY.
 	 */
+	mutex_lock(&phydev->mdio.bus->mdio_lock);
+	ret = __phy_write(phydev, YT8521_EXT_ADDR_REG, YT8521_CHIP_CONFIG_REG);
+	if (!ret)
+		ret = __phy_set_bits(phydev, YT8521_EXT_DATA_REG,
+				     YT8521_RXC_DLY_EN);
+	mutex_unlock(&phydev->mdio.bus->mdio_lock);
+	if (ret < 0)
+		return ret;
+
 	phy_write(phydev,0x4,0x11e1);
 	phy_write(phydev,0x0,0x1000);
 	phy_write(phydev,0x1e,0xa00d);
