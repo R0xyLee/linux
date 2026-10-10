@@ -12,6 +12,11 @@
 	model = "Forlinx OK8MPlus-C board";
 	compatible = "forlinx,ok8mp-c", "fsl,imx8mp-evk", "fsl,imx8mp";
 
+	/* Serial/NFS boot does not depend on bootloader display initialization. */
+	display-subsystem {
+		status = "disabled";
+	};
+
 	reserved-memory {
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -197,7 +202,7 @@
 				<48000>,
 				<96000>,
 				<192000>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	sound-wm8960 {
@@ -262,7 +267,7 @@
 	lvds_backlight: lvds_backlight {
 		compatible = "pwm-backlight";
 		pwms = <&pwm2 0 50000>;
-		status = "no";
+		status = "disabled";
 		is-forlinx; //if not forlinx backlight remove this
 
 		brightness-levels = < 
@@ -305,7 +310,7 @@
 	dsi_backlight: dsi_backlight {
 		compatible = "pwm-backlight";
 		pwms = <&pwm1 0 50000>;
-		status = "okay";
+		status = "disabled";
 		is-forlinx;      //if not forlinx backligth  remove this
 
 		brightness-levels = < 
@@ -348,8 +353,8 @@
 	forlinx_control {
 		status = "disabled";
 		video-mipi = "off";
-		video-lvds = "on";
-		video-hdmi = "on";
+		video-lvds = "off";
+		video-hdmi = "off";
 	};
 
 	ds18b20: onewire {
@@ -363,7 +368,7 @@
 };
 
 &aud2htx {
-	status = "okay";
+	status = "disabled";
 };
 
 &clk {
@@ -747,7 +752,7 @@
 };
 
 &irqsteer_hdmi {
-	status = "okay";
+	status = "disabled";
 };
 
 &flexcan1 {
@@ -763,35 +768,35 @@
 };
 
 &hdmimix_clk {
-	status = "okay";
+	status = "disabled";
 };
 
 &hdmimix_reset {
-	status = "okay";
+	status = "disabled";
 };
 
 &hdmi_pavi {
-	status = "okay";
+	status = "disabled";
 };
 
 &hdmi {
-	status = "okay";
+	status = "disabled";
 };
 
 &hdmiphy {
-	status = "okay";
+	status = "disabled";
 };
 
 &lcdif1 {
-	status = "okay";
+	status = "disabled";
 };
 
 &lcdif2 {
-	status = "okay";
+	status = "disabled";
 };
 
 &lcdif3 {
-	status = "okay";
+	status = "disabled";
 
 	thres-low  = <1 2>;             /* (FIFO * 1 / 2) */
 	thres-high = <3 4>;             /* (FIFO * 3 / 4) */
@@ -800,6 +805,7 @@
 / {
 	lvds0_panel {
 		compatible = "forlinx,panel", "panel-lvds";
+		status = "disabled";
 		backlight = <&lvds_backlight>;
 		pinctrl-0 = <&pinctrl_lvds_panel_en>;
 		enable-gpio = <&gpio1 13 GPIO_ACTIVE_HIGH>;
@@ -832,12 +838,12 @@
 };
 
 &ldb {
-	status = "no";
+	status = "disabled";
 
 	lvds-channel@0 {
 		fsl,data-mapping = "spwg";
 		fsl,data-width = <24>;
-		status = "no";
+		status = "disabled";
 
 		port@1 {
 			reg = <1>;
@@ -850,11 +856,11 @@
 };
 
 &ldb_phy {
-	status = "okay";
+	status = "disabled";
 };
 
 &mipi_dsi {
-	status = "okay";
+	status = "disabled";
 	pmsreg = <0x8644>; 		//uboot
 	timing = <0x203>; 		//uboot
 	timing1 = <0x20d0803>; 	//uboot
