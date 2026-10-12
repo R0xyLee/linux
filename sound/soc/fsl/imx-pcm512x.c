@@ -426,8 +426,7 @@ static int imx_pcm512x_probe(struct platform_device *pdev)
 	platform_set_drvdata(pdev, &data->card);
 	snd_soc_card_set_drvdata(&data->card, data);
 
-	memcpy(data->dai_link, imx_pcm512x_dai,
-	       sizeof(struct snd_soc_dai_link) * ARRAY_SIZE(data->dai_link));
+	memcpy(data->dai_link, imx_pcm512x_dai, sizeof(imx_pcm512x_dai));
 
 	data->card.owner = THIS_MODULE;
 	data->card.dev = &pdev->dev;
