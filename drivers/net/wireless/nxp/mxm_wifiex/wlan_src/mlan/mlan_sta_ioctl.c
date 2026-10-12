@@ -2874,9 +2874,9 @@ static mlan_status wlan_sec_ioctl_set_wep_key(pmlan_adapter pmadapter,
 			/* Copy the required key as the current key */
 			pwep_key = &pmpriv->wep_key[index];
 			if (!pwep_key->key_length) {
-				if (&pmpriv->sec_info.wpa_enabled ||
-				    &pmpriv->sec_info.wpa2_enabled ||
-				    &pmpriv->sec_info.wapi_enabled) {
+				if (pmpriv->sec_info.wpa_enabled ||
+				    pmpriv->sec_info.wpa2_enabled ||
+				    pmpriv->sec_info.wapi_enabled) {
 					ret = MLAN_STATUS_SUCCESS;
 					goto exit;
 				}
