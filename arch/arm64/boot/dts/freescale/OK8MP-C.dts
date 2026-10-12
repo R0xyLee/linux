@@ -690,6 +690,8 @@
 		clock-names = "mclk";
 		wlf,shared-lrclk;
 		SPKVDD1-supply = <&reg_audio_pwr>;
+		/* The board uses NAU8822 at the same I2C address. */
+		status = "disabled";
 	};
 
 	codec_nau8822: nau8822@1a {
@@ -699,6 +701,8 @@
 		clock-names = "mclk";
 		wlf,shared-lrclk;
 		SPKVDD1-supply = <&reg_audio_pwr>;
+		/* The board uses NAU8822 at the same I2C address. */
+		status = "disabled";
 		status = "okay";
 	};
 
