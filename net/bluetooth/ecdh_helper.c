@@ -115,11 +115,11 @@ free_tmp:
  *
  * @tfm:           KPP tfm handle allocated with crypto_alloc_kpp().
  * @private_key:   user's ecc private key. When not NULL, the key is expected
- *                 in little endian format.
+ *                 to contain 32 bytes in little endian format.
  *
  * Return: zero on success; error code in case of error.
  */
-int set_ecdh_privkey(struct crypto_kpp *tfm, const u8 private_key[32])
+int set_ecdh_privkey(struct crypto_kpp *tfm, const u8 *private_key)
 {
 	u8 *buf, *tmp = NULL;
 	unsigned int buf_len;
