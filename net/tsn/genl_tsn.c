@@ -1677,13 +1677,6 @@ static int cmd_qci_sgi_get(struct genl_info *info)
 		s8 ipv;
 		u32 ti, omax;
 
-		if (!(gcl + i)) {
-			pr_err("error: list count too big\n");
-			ret = -EINVAL;
-			kfree(sgiadmin.admin.gcl);
-			goto err;
-		}
-
 		/* Adminastration entry */
 		sglattr = nla_nest_start_noflag(rep_skb,
 						TSN_SGI_ATTR_CTRL_GCLENTRY);
@@ -1872,13 +1865,6 @@ static int cmd_qci_sgi_status_get(struct genl_info *info)
 	for (i = 0; i < listcount; i++) {
 		s8 ipv;
 		u32 ti, omax;
-
-		if (!(gcl + i)) {
-			pr_err("error: list count too big\n");
-			ret = -EINVAL;
-			kfree(sgistat.oper.gcl);
-			goto err;
-		}
 
 		/* Operation entry */
 		sglattr = nla_nest_start_noflag(rep_skb,
