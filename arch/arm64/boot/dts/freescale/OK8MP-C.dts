@@ -905,6 +905,11 @@
 	};
 };
 
+/* TF-A retains JR0 for HAB; Linux uses the non-secure JR1 and JR2. */
+&sec_jr0 {
+	status = "disabled";
+};
+
 &easrc {
 	fsl,asrc-rate = <48000>;
 	status = "okay";
