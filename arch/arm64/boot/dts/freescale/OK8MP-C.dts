@@ -701,8 +701,6 @@
 		clock-names = "mclk";
 		wlf,shared-lrclk;
 		SPKVDD1-supply = <&reg_audio_pwr>;
-		/* The board uses NAU8822 at the same I2C address. */
-		status = "disabled";
 		status = "okay";
 	};
 
@@ -915,6 +913,7 @@
 	status = "okay";
 };
 
+/* No PCIe endpoint is populated; enable the host and PHY together when needed. */
 &pcie {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pcie>;
@@ -929,7 +928,7 @@
 			  <&clk IMX8MP_CLK_PCIE_AUX>;
 	assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_500M>,
 				 <&clk IMX8MP_SYS_PLL2_50M>;
-	status = "okay";
+	status = "disabled";
 };
 
 &pcie_ep {
@@ -950,7 +949,7 @@
 
 &pcie_phy {
 	ext_osc = <1>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sai5 {
