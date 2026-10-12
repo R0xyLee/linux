@@ -356,7 +356,7 @@ static mlan_status wlan_get_info_bss_info(pmlan_adapter pmadapter,
 	info->param.bss_info.listen_interval = pmpriv->listen_interval;
 
 	/* Association ID */
-	if (pmpriv->assoc_rsp_buf)
+	if (pmpriv->assoc_rsp_size >= ASSOC_RESP_FIXED_SIZE)
 		info->param.bss_info.assoc_id =
 			(t_u16)((IEEEtypes_AssocRsp_t *)pmpriv->assoc_rsp_buf)
 				->a_id;
