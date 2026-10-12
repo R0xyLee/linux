@@ -445,6 +445,10 @@ static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
 	struct extcon_dev *edev;
 	const char *name;
 
+	/* Role-switch platforms do not use the legacy PHY/extcon graph. */
+	if (device_property_read_bool(dev, "usb-role-switch"))
+		return NULL;
+
 	if (device_property_read_bool(dev, "extcon"))
 		return extcon_get_edev_by_phandle(dev, 0);
 
