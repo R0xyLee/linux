@@ -216,13 +216,18 @@ static int imx8mq_phy_power_on(struct phy *phy)
 	u32 value;
 	int ret;
 
-	ret = regulator_enable(imx_phy->vbus);
-	if (ret)
-		return ret;
+	if (imx_phy->vbus) {
+		ret = regulator_enable(imx_phy->vbus);
+		if (ret)
+			return ret;
+	}
 
 	ret = clk_prepare_enable(imx_phy->clk);
-	if (ret)
+	if (ret) {
+		if (imx_phy->vbus)
+			regulator_disable(imx_phy->vbus);
 		return ret;
+	}
 
 	/* Disable rx term override */
 	value = readl(imx_phy->base + PHY_CTRL6);
@@ -243,7 +248,8 @@ static int imx8mq_phy_power_off(struct phy *phy)
 	writel(value, imx_phy->base + PHY_CTRL6);
 
 	clk_disable_unprepare(imx_phy->clk);
-	regulator_disable(imx_phy->vbus);
+	if (imx_phy->vbus)
+		regulator_disable(imx_phy->vbus);
 
 	return 0;
 }
@@ -525,6 +531,7 @@ static int imx8mq_usb_phy_probe(struct platform_device *pdev)
 	struct device *dev = &pdev->dev;
 	struct imx8mq_usb_phy *imx_phy;
 	struct resource *res;
+	int ret;
 
 	imx_phy = devm_kzalloc(dev, sizeof(*imx_phy), GFP_KERNEL);
 	if (!imx_phy)
@@ -545,9 +552,14 @@ static int imx8mq_usb_phy_probe(struct platform_device *pdev)
 	if (IS_ERR(imx_phy->phy))
 		return PTR_ERR(imx_phy->phy);
 
-	imx_phy->vbus = devm_regulator_get(dev, "vbus");
-	if (IS_ERR(imx_phy->vbus))
-		return PTR_ERR(imx_phy->vbus);
+	/* VBUS may be fixed or managed by the Type-C controller instead. */
+	imx_phy->vbus = devm_regulator_get_optional(dev, "vbus");
+	if (IS_ERR(imx_phy->vbus)) {
+		ret = PTR_ERR(imx_phy->vbus);
+		if (ret != -ENODEV)
+			return ret;
+		imx_phy->vbus = NULL;
+	}
 
 	phy_set_drvdata(imx_phy->phy, imx_phy);
 	platform_set_drvdata(pdev, imx_phy);
