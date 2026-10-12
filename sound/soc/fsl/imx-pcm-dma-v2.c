@@ -269,9 +269,29 @@ static struct snd_soc_component_driver imx_soc_platform = {
 	.pcm_new	= imx_pcm_new,
 };
 
+static void imx_pcm_platform_unregister(void *dev)
+{
+	snd_soc_unregister_component(dev);
+}
+
 int imx_pcm_platform_register(struct device *dev)
 {
-	return devm_snd_soc_register_component(dev, &imx_soc_platform, NULL, 0);
+	struct snd_soc_component *component;
+	int ret;
+
+	component = devm_kzalloc(dev, sizeof(*component), GFP_KERNEL);
+	if (!component)
+		return -ENOMEM;
+
+#ifdef CONFIG_DEBUG_FS
+	/* Set before registration can rebind a card sharing the CPU DAI's name. */
+	component->debugfs_prefix = "dma";
+#endif
+	ret = snd_soc_add_component(dev, component, &imx_soc_platform, NULL, 0);
+	if (ret)
+		return ret;
+
+	return devm_add_action_or_reset(dev, imx_pcm_platform_unregister, dev);
 }
 EXPORT_SYMBOL_GPL(imx_pcm_platform_register);
 

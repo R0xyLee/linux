@@ -2266,8 +2266,14 @@ static const struct of_device_id fsl_easrc_dt_ids[] = {
 
 MODULE_DEVICE_TABLE(of, fsl_easrc_dt_ids);
 
+static void fsl_easrc_unregister_components(void *dev)
+{
+	snd_soc_unregister_component(dev);
+}
+
 static int fsl_easrc_probe(struct platform_device *pdev)
 {
+	struct snd_soc_component *dma_component;
 	struct fsl_easrc *easrc;
 	struct resource *res;
 	struct device_node *np;
@@ -2374,6 +2380,15 @@ static int fsl_easrc_probe(struct platform_device *pdev)
 
 	regcache_cache_only(easrc->regmap, true);
 
+	dma_component = devm_kzalloc(&pdev->dev, sizeof(*dma_component),
+				   GFP_KERNEL);
+	if (!dma_component)
+		return -ENOMEM;
+
+#ifdef CONFIG_DEBUG_FS
+	/* Card rebinding during registration must see a name distinct from DAI. */
+	dma_component->debugfs_prefix = "dma";
+#endif
 	ret = devm_snd_soc_register_component(&pdev->dev, &fsl_easrc_component,
 					      &fsl_easrc_dai, 1);
 	if (ret) {
@@ -2381,13 +2396,17 @@ static int fsl_easrc_probe(struct platform_device *pdev)
 		return ret;
 	}
 
-	ret = devm_snd_soc_register_component(&pdev->dev,
-					      &fsl_easrc_dma_component,
-					      NULL, 0);
+	ret = snd_soc_add_component(&pdev->dev, dma_component,
+				    &fsl_easrc_dma_component, NULL, 0);
 	if (ret) {
 		dev_err(&pdev->dev, "failed to register ASoC platform\n");
 		return ret;
 	}
+
+	ret = devm_add_action_or_reset(&pdev->dev,
+				       fsl_easrc_unregister_components, &pdev->dev);
+	if (ret)
+		return ret;
 
 	ret = fsl_easrc_m2m_init(easrc);
 	if (ret) {
