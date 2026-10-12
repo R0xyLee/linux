@@ -107,8 +107,8 @@ config CFG80211_USE_KERNEL_REGDB_KEYS
 	  which certificates are part of the kernel sources
 	  (in net/wireless/certs/).
 
-	  This is currently only Seth Forshee's key, who is the regulatory
-	  database maintainer.
+	  These include the keys of regulatory database maintainers
+	  Seth Forshee and Chen-Yu Tsai.
 
 config CFG80211_EXTRA_REGDB_KEYDIR
 	string "additional regdb key directory" if CFG80211_CERTIFICATION_ONUS
