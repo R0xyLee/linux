@@ -1285,7 +1285,8 @@ static int xr_usb_serial_probe(struct usb_interface *intf,
 			call_management_function = buffer[3];
 			call_interface_num = buffer[4];
 			if ((quirks & NOT_A_MODEM) == 0 && (call_management_function & 3) != 3)
-				dev_err(&intf->dev, "This device cannot do calls on its own. It is not a modem.\n");
+				dev_warn(&intf->dev,
+					"This device cannot do calls on its own. It is not a modem.\n");
 			break;
 		default:
 			/* there are LOTS more CDC descriptors that
