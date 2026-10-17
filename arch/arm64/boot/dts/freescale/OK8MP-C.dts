@@ -140,6 +140,7 @@
 	usdhc1_pwrseq: usdhc1_pwrseq {
 		compatible = "mmc-pwrseq-simple";
 		reset-gpios = <&gpio2 8 GPIO_ACTIVE_LOW>;
+		status = "disabled";
 	};
 
 	reg_audio_pwr: regulator-audio-pwr {
@@ -169,6 +170,7 @@
 	bt_sco_codec: bt_sco_codec {
 		#sound-dai-cells = <1>;
 		compatible = "linux,bt-sco";
+		status = "disabled";
 	};
 
 	sound-bt-sco {
@@ -178,6 +180,7 @@
 		simple-audio-card,bitclock-inversion;
 		simple-audio-card,frame-master = <&btcpu>;
 		simple-audio-card,bitclock-master = <&btcpu>;
+		status = "disabled";
 
 		btcpu: simple-audio-card,cpu {
 			sound-dai = <&sai5>;
@@ -262,6 +265,7 @@
 		compatible = "fsl,imx-audio-xcvr";
 		model = "imx-audio-xcvr";
 		cpu-dai = <&xcvr>;
+		status = "disabled";
 	};
 
 	lvds_backlight: lvds_backlight {
@@ -382,7 +386,7 @@
 &pwm1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm1>;
-	status = "okay";
+	status = "disabled";
 	assigned-clocks = <&clk IMX8MP_CLK_PWM1>;
 	assigned-clock-parents = <&clk IMX8MP_CLK_24M>;
 	assigned-clock-rates = <24000000>;
@@ -391,7 +395,7 @@
 &pwm2 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm2>;
-	status = "okay";
+	status = "disabled";
 };
 
 &ecspi2 {
@@ -416,7 +420,7 @@
 	reset-gpio = <&gpio5 5 GPIO_ACTIVE_LOW>;
 	phy-mode = "rgmii-id";
 	phy-handle = <&ethphy0>;
-	status = "okay";
+	status = "disabled";
 
 	mdio {
 		compatible = "snps,dwmac-mdio";
@@ -589,7 +593,7 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_i2c2>;
-	status = "okay";
+	status = "disabled";
 
 	ov5645_0: ov5645_mipi@3c {
 		compatible = "ovti,ov5645";
@@ -608,7 +612,7 @@
 		mclk = <24000000>;
 		mclk_source = <0>;
 		mipi_csi;
-		status = "no";
+		status = "disabled";
 
 		port {
 			ov5645_mipi_1_ep: endpoint {
@@ -714,7 +718,7 @@
 	rx8010: rx8010@32 {
 		compatible = "epson,rx8010";
 		reg = <0x32>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	touchscreen@14 {
@@ -730,6 +734,7 @@
 		touchscreen-size-x = <1280>;
 		touchscreen-size-y = <800>;
 		touchscreen-swapped-x-y;
+		status = "disabled";
 	};
 };
 
@@ -737,7 +742,7 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_i2c4>;
-	status = "okay";
+	status = "disabled";
 
 	ft5316: ft5316@38 {
 		compatible = "edt,edt-ft5306";
@@ -750,6 +755,7 @@
 		interrupts = <12 IRQ_TYPE_EDGE_FALLING>;
 		touchscreen-size-x = <1024>;
 		touchscreen-size-y = <600>;
+		status = "disabled";
 	};
 };
 
@@ -760,13 +766,13 @@
 &flexcan1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_flexcan1>;
-	status = "okay";
+	status = "disabled";
 };
 
 &flexcan2 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_flexcan2>;
-	status = "okay";/* can2 pin conflict with pdm: gpio low select pdm, gpio high select can2 */
+	status = "disabled";/* can2 pin conflict with pdm: gpio low select pdm, gpio high select can2 */
 };
 
 &hdmimix_clk {
@@ -774,6 +780,14 @@
 };
 
 &hdmimix_reset {
+	status = "disabled";
+};
+
+&hdmimix {
+	status = "disabled";
+};
+
+&hdmi_blk {
 	status = "disabled";
 };
 
@@ -959,7 +973,7 @@
 	assigned-clocks = <&clk IMX8MP_CLK_SAI5>;
 	assigned-clock-parents = <&clk IMX8MP_AUDIO_PLL1_OUT>;
 	assigned-clock-rates = <12288000>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sai3 {
@@ -978,7 +992,7 @@
 
 &xcvr {
 	#sound-dai-cells = <0>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sdma2 {
@@ -1007,7 +1021,7 @@
 	assigned-clocks = <&clk IMX8MP_CLK_UART3>;
 	assigned-clock-parents = <&clk IMX8MP_SYS_PLL1_80M>;
 	fsl,uart-has-rtscts;
-	status = "okay";
+	status = "disabled";
 };
 
 &usb3_phy0 {
@@ -1061,7 +1075,7 @@
 	pinctrl-2 = <&pinctrl_usdhc1_200mhz>, <&pinctrl_usdhc1_gpio>;
 	bus-width = <4>;
 	non-removable;
-	status = "okay";
+	status = "disabled";
 	pm-ignore-notify;
 	keep-power-in-suspend;
 	/delete-property/ mmc-supply;
@@ -1504,37 +1518,37 @@
 };
 
 &vpu_g1 {
-	status = "okay";
+	status = "disabled";
 };
 
 &vpu_g2 {
-	status = "okay";
+	status = "disabled";
 };
 
 &vpu_vc8000e {
-	status = "okay";
+	status = "disabled";
 };
 
 &gpu_3d {
-	status = "okay";
+	status = "disabled";
 };
 
 &gpu_2d {
-	status = "okay";
+	status = "disabled";
 };
 
 &ml_vipsi {
-	status = "okay";
+	status = "disabled";
 };
 
 &mix_gpu_ml {
-	status = "okay";
+	status = "disabled";
 };
 
 &mipi_csi_0 {
 	#address-cells = <1>;
 	#size-cells = <0>;
-	status = "no";
+	status = "disabled";
 
 	port@0 {
 		reg = <0>;
@@ -1549,7 +1563,7 @@
 &mipi_csi_1 {
 	#address-cells = <1>;
 	#size-cells = <0>;
-	status = "okay";
+	status = "disabled";
 
 	port@1 {
 		reg = <1>;
@@ -1564,7 +1578,7 @@
 };
 
 &cameradev {
-	status = "okay";
+	status = "disabled";
 };
 
 &isi_0 {
@@ -1580,27 +1594,43 @@
 };
 
 &isi_1 {
-	status = "okay";
+	status = "disabled";
 
 	cap_device {
-		status = "okay";
+		status = "disabled";
 	};
 
 	m2m_device {
-		status = "okay";
+		status = "disabled";
 	};
 };
 
 &isp_0 {
-	status = "okay";
+	status = "disabled";
 };
 
 &dewarp_0 {
-	status = "okay";
+	status = "disabled";
 };
 
 &dsp {
-	status = "okay";
+	status = "disabled";
+};
+
+&mu2 {
+	status = "disabled";
+};
+
+&audiomix_dsp {
+	status = "disabled";
+};
+
+&dsp_reserved {
+	status = "disabled";
+};
+
+&dma_apbh {
+	status = "disabled";
 };
 
 &rpmsg {
