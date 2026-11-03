@@ -914,6 +914,8 @@ static int imx_rproc_configure_mode(struct imx_rproc *priv)
 #endif
 	} else if (dcfg->variant == IMX8MN) {
 		arm_smccc_smc(IMX_SIP_SRC, IMX_SIP_SRC_M4_STARTED, 0, 0, 0, 0, 0, 0, &res);
+		if ((int)res.a0 < 0)
+			return (int)res.a0;
 		priv->early_boot = !!res.a0;
 	} else if (of_get_property(dev->of_node, "ipc-only", NULL)) {
 		priv->ipc_only = true;
