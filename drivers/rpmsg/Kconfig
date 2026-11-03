@@ -71,7 +71,7 @@ config HAVE_IMX_RPMSG
 config IMX_RPMSG_PINGPONG
 	tristate "IMX RPMSG pingpong driver -- loadable modules only"
 	default m
-	depends on HAVE_IMX_RPMSG && m
+	depends on RPMSG && m
 	help
 	  One 32bit unsigned int data transactions demoe between the A core
 	  and the remote M core on the iMX AMP platforms.
@@ -82,7 +82,7 @@ config IMX_RPMSG_PINGPONG
 config IMX_RPMSG_TTY
 	tristate "IMX RPMSG tty driver -- loadable modules only"
 	default m
-	depends on HAVE_IMX_RPMSG && m
+	depends on RPMSG && m
 	help
 	  Demostrate the string transmission from A core to the remote M core
 	  on the iMX AMP platforms.
