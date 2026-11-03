@@ -38,7 +38,7 @@
 			reg = <0 0x55400000 0 0x100000>;
 			no-map;
 		};
-		rsc-table {
+		m7_rsc_table: rsc-table@550ff000 {
 			reg = <0 0x550ff000 0 0x1000>;
 			no-map;
 		};
@@ -48,20 +48,24 @@
 			reg = <0 0x55800000 0 0x800000>;
 		};
 		
-		imx8mp-cm7 {
-			compatible = "fsl,imx8mp-cm7";
-			rsc-da = <0x55000000>;
-			clocks = <&clk IMX8MP_CLK_M7_DIV>;
-			mbox-names = "tx", "rx", "rxdb";
-			mboxes = <&mu 0 1
-			&mu 1 1
-			&mu 3 1>;
-			memory-region =
-				<&vdev0vring0>,
-				<&vdev0vring1>,
-				<&vdevbuffer>;
-			status = "okay";
+		/* MCUXpresso RAM builds also use this DDR data region. */
+		m7_reserved: m7@80000000 {
+			reg = <0 0x80000000 0 0x1000000>;
+			no-map;
 		};
+	};
+
+	imx8mp-cm7 {
+		compatible = "fsl,imx8mp-cm7";
+		rsc-da = <0x550ff000>;
+		syscon = <&src>;
+		clocks = <&clk IMX8MP_CLK_M7_DIV>;
+		mbox-names = "tx", "rx", "rxdb";
+		mboxes = <&mu 0 1>, <&mu 1 1>, <&mu 3 1>;
+		memory-region = <&vdev0vring0>, <&vdev0vring1>, <&vdevbuffer>,
+				<&m7_rsc_table>, <&m7_reserved>;
+		/* Select and start firmware explicitly through remoteproc. */
+		status = "okay";
 	};
 
 	chosen {
@@ -372,7 +376,8 @@
 };
 
 &clk {
-	init-on-array = <IMX8MP_CLK_HSIO_ROOT>;
+	/* UART4 is the M7 console and has no Linux UART consumer. */
+	init-on-array = <IMX8MP_CLK_HSIO_ROOT IMX8MP_CLK_UART4_ROOT>;
 };
 
 &A53_0 {
@@ -1604,14 +1609,13 @@
 };
 
 &rpmsg {
-	/*
-	 * 64K for one rpmsg instance:
-	 * --0x55000000~0x5500ffff: pingpong
-	 */
-	vdev-nums = <1>;
-	reg = <0x0 0x55000000 0x0 0x10000>;
-	memory-region = <&vdevbuffer>;
-	status = "okay";
+	/* remoteproc owns the MU channels and creates the RPMsg virtio bus. */
+	status = "disabled";
+};
+
+&uart4 {
+	/* Reserved for the Cortex-M7 debug console. */
+	status = "disabled";
 };
 
 &snvs_rtc {
