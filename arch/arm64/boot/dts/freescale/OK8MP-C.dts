@@ -259,12 +259,27 @@
 	status = "okay";
 };
 
+&usb3_phy0 {
+	status = "okay";
+};
+
 &usb3_phy1 {
 	fsl,phy-tx-preemp-amp-tune-microamp = <1200>;
 	status = "okay";
 };
 
+&usb3_0 {
+	status = "okay";
+};
+
 &usb3_1 {
+	status = "okay";
+};
+
+&usb_dwc3_0 {
+	dr_mode = "peripheral";
+	/* USB2 data does not depend on the Type-C SuperSpeed mux. */
+	maximum-speed = "high-speed";
 	status = "okay";
 };
 
