@@ -81,6 +81,11 @@
 	cpu-supply = <&reg_arm>;
 };
 
+/* Boot can stall when a CPU enters the PSCI power-down state. */
+&cpu_pd_wait {
+	status = "disabled";
+};
+
 &eqos {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_eqos>;
