@@ -16,6 +16,19 @@
 		stdout-path = "serial1:115200n8";
 	};
 
+	leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_heartbeat>;
+
+		led-0 {
+			label = "heartbeat";
+			gpios = <&gpio3 16 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+			linux,default-trigger = "heartbeat";
+		};
+	};
+
 	/* U-Boot supplies the memory banks for the installed RAM. */
 	memory@40000000 {
 		device_type = "memory";
@@ -316,6 +329,12 @@
 			MX8MP_IOMUXC_SAI1_TXD4__ENET1_RGMII_TX_CTL	0x1f
 			MX8MP_IOMUXC_SAI1_TXD5__ENET1_RGMII_TXC		0x1f
 			MX8MP_IOMUXC_SPDIF_RX__GPIO5_IO04		0x19
+		>;
+	};
+
+	pinctrl_heartbeat: heartbeatgrp {
+		fsl,pins = <
+			MX8MP_IOMUXC_NAND_READY_B__GPIO3_IO16	0x19
 		>;
 	};
 
