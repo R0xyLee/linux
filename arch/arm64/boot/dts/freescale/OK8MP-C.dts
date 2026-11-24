@@ -61,6 +61,12 @@
 			no-map;
 		};
 
+		ramoops@55500000 {
+			compatible = "ramoops";
+			reg = <0 0x55500000 0 0x100000>;
+			record-size = <0x20000>;
+		};
+
 		m7_reserved: m7@80000000 {
 			reg = <0 0x80000000 0 0x1000000>;
 			no-map;
